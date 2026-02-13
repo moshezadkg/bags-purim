@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ההרשמה התקבלה בהצלחה</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0A0F2D;
+            --accent-color: #C6A94A;
+            --success-color: #22c55e;
+            --light-bg: #f4f6f8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            direction: rtl;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid var(--accent-color);
+            position: relative;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon-circle {
+            width: 100px;
+            height: 100px;
+            background: #dcfce7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            color: var(--success-color);
+            font-size: 3.5rem;
+            animation: scaleIn 0.5s ease-out 0.3s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0 0 1rem;
+            font-size: 2rem;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .details-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: right;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #334155;
+        }
+
+        .detail-row i {
+            color: var(--accent-color);
+            width: 25px;
+            text-align: center;
+        }
+
+        .detail-row strong {
+            color: var(--primary-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(10, 15, 45, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="card">
+        <div class="icon-circle">
+            <i class="fas fa-check"></i>
+        </div>
+
+        <h1>ההרשמה נקלטה בהצלחה!</h1>
+        <p>תודה רבה! פרטי ההזמנה הועברו למערכת.</p>
+
+        <div class="details-box">
+            <div class="detail-row">
+                <i class="fas fa-synagogue"></i>
+                <span>עבור: <strong id="yeshiva-display">...</strong></span>
+            </div>
+            <div class="detail-row">
+                <i class="fas fa-shopping-bag"></i>
+                <span>כמות שקיות שהוזמנה: <strong id="bags-display">...</strong></span>
+            </div>
+            <div class="detail-row" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+                <i class="fas fa-user"></i>
+                <span>איש קשר: <strong id="contact-display">...</strong></span>
+            </div>
+            <div class="detail-row">
+                <i class="fas fa-phone"></i>
+                <span>טלפון: <strong id="phone-display">...</strong></span>
+            </div>
+            <div class="detail-row">
+                <i class="fas fa-envelope"></i>
+                <span>אימייל: <strong id="email-display">...</strong></span>
+            </div>
+            <div class="detail-row"
+                style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; color: #888; font-size: 0.95rem;">
+                <i class="fas fa-info-circle"></i>
+                <span>ניצור קשר בהקדם לתיאום האספקה.</span>
+            </div>
+        </div>
+
+        <a href="בצוותא.html" class="btn">
+            חזרה לטופס הראשי
+        </a>
+
+        <div style="margin-top: 2rem; font-size: 0.9rem; color: #999;">
+            פיתוח תוכנה: <a href="tel:0527104792" style="color: #0A0F2D; text-decoration: none; font-weight: 700;">חננאל
+                052-7104792</a> | <a href="mailto:h0527104792@gmail.com"
+                style="color: #0A0F2D; text-decoration: none;">h0527104792@gmail.com</a> | &copy; כל הזכויות שמורות 2026
+        </div>
+    </div>
+
+    <script>
+        // קריאת הפרמטרים מה-URL
+        const urlParams = new URLSearchParams(window.location.search);
+
+        document.getElementById('yeshiva-display').textContent = urlParams.get('yeshiva') || 'הישיבה';
+        document.getElementById('bags-display').textContent = urlParams.get('bags') || '-';
+        document.getElementById('contact-display').textContent = urlParams.get('contact') || 'איש הקשר';
+        document.getElementById('phone-display').textContent = urlParams.get('phone') || '-';
+        document.getElementById('email-display').textContent = urlParams.get('email') || '-';
+
+        // אפקט קונפטי פשוט
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const confetti = [];
+        const colors = ['#C6A94A', '#0A0F2D', '#22c55e', '#FFD700'];
+
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: Math.random() * 10 + 5,
+                    speed: Math.random() * 5 + 2,
+                    angle: Math.random() * 6.2
+                });
+            }
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confetti.forEach((p, i) => {
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, 6.2);
+                ctx.fill();
+                p.y += p.speed;
+                p.x += Math.sin(p.angle) * 2;
+                if (p.y > canvas.height) confetti.splice(i, 1);
+            });
+            if (confetti.length > 0) requestAnimationFrame(drawConfetti);
+        }
+
+        createConfetti();
+        drawConfetti();
+    </script>
+</body>
+
+</html>

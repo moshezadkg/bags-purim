@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>רישום ישיבות לחלוקת שקיות - איגוד הת"תים</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0A0F2D;
+            /* כחול כהה */
+            --accent-color: #C6A94A;
+            /* זהב */
+            --light-bg: #f4f6f8;
+            --white: #ffffff;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            color: #333;
+            direction: rtl;
+            padding-bottom: 50px;
+        }
+
+        /* כותרת עליונה */
+        .header {
+            background: var(--primary-color);
+            padding: 2rem 1rem 4rem;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 4px solid var(--accent-color);
+            position: relative;
+            overflow: visible;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: var(--accent-color);
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* גלריית תמונות */
+        .images-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: -60px;
+            position: relative;
+            z-index: 20;
+            padding: 0 1rem;
+        }
+
+        .bag-image {
+            background: white;
+            padding: 5px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+            max-height: 200px;
+            object-fit: contain;
+            border: 1px solid #eee;
+        }
+
+        .bag-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* מיכל ראשי */
+        .container {
+            max-width: 800px;
+            margin: 80px auto 30px;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* כרטיסים */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-top: 3px solid transparent;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card.active-section {
+            border-top-color: var(--accent-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.8rem;
+        }
+
+        .section-title i {
+            color: var(--accent-color);
+            background: rgba(198, 169, 74, 0.1);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1rem;
+        }
+
+        /* טופס */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+            position: relative;
+            /* למיקום הודעת שגיאה */
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group label .required-star {
+            color: var(--error);
+            margin-right: 3px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: color 0.3s;
+            pointer-events: none;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 2.5rem 0.9rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #fcfcfc;
+            appearance: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(198, 169, 74, 0.1);
+        }
+
+        .form-control.error {
+            border-color: var(--error);
+            background: #fff8f8;
+        }
+
+        .error-text {
+            color: var(--error);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .form-control:focus+i {
+            color: var(--accent-color);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        /* שדה לתפקיד אחר */
+        #otherRoleGroup {
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        /* שדה לסוג ישיבה אחר */
+        #otherYeshivaTypeGroup {
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* מחשבון כמויות */
+        .summary-box {
+            background: #f0f7ff;
+            border: 1px solid #cce3ff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        /* כפתור שליחה */
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            box-shadow: 0 4px 15px rgba(198, 169, 74, 0.3);
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #b59942;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* הודעות */
+        .status-message {
+            display: none;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+
+        .status-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .developer-credit {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+
+        .developer-credit a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding-bottom: 2rem;
+            }
+
+            .images-container {
+                margin-top: 1rem;
+                margin-bottom: 0;
+            }
+
+            .container {
+                margin-top: 2rem;
+            }
+
+            .bag-image {
+                max-height: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div>
+            <h1>רישום ישיבות לחלוקת שקיות</h1>
+            <p>מערכת הזמנות לתת"ים - מגבית פורים תשפ"ו</p>
+        </div>
+
+        <div class="images-container">
+            <img src="1001072558.png" alt="שקית בצוותא" class="bag-image">
+            <img src="1001072553.jpg" alt="מידות שקית" class="bag-image" style="display: none;">
+        </div>
+    </header>
+
+    <div class="container">
+
+        <form id="orderForm" onsubmit="handleSubmit(event)" novalidate>
+
+            <!-- פרטי הישיבה -->
+            <div class="card active-section">
+                <h2 class="section-title">
+                    <i class="fas fa-synagogue"></i>
+                    פרטי הישיבה
+                </h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>שם הישיבה / המוסד <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="yeshivaName" class="form-control"
+                                placeholder="הכנס את שם הישיבה המלא" required>
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="error-text">נא להזין שם ישיבה</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>סוג מוסד <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <select id="yeshivaType" class="form-control" required onchange="handleYeshivaTypeChange()">
+                                <option value="" disabled selected>בחר סוג...</option>
+                                <option value="ישיבה קטנה">ישיבה קטנה</option>
+                                <option value="ישיבה גדולה">ישיבה גדולה</option>
+                                <option value="אחר">אחר (נא לפרט)</option>
+                            </select>
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="error-text">נא לבחור סוג מוסד</div>
+                    </div>
+
+                    <!-- שדה נסתר לסוג ישיבה אחר -->
+                    <div class="form-group" id="otherYeshivaTypeGroup">
+                        <label>פרט סוג מוסד <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="otherYeshivaTypeSpec" class="form-control"
+                                placeholder="הכנס את סוג המוסד">
+                            <i class="fas fa-pen"></i>
+                        </div>
+                        <div class="error-text">נא לפרט את סוג המוסד</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>עיר <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="city" class="form-control" placeholder="לדוג': בני ברק" required>
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <div class="error-text">נא להזין עיר</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>כתובת מדויקת <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="address" class="form-control" placeholder="רחוב ומספר" required>
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="error-text">נא להזין כתובת</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- איש קשר -->
+            <div class="card">
+                <h2 class="section-title">
+                    <i class="fas fa-user-tie"></i>
+                    פרטי איש קשר (ראש ת"ת)
+                </h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>שם מלא <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="contactName" class="form-control"
+                                placeholder="שם ראש הת&quot;ת / האחראי" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="error-text">נא להזין שם מלא</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>תפקיד בישיבה / בת"ת <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <select id="role" class="form-control" required onchange="handleRoleChange()">
+                                <option value="" disabled selected>בחר תפקיד...</option>
+                                <option value="ראש ת&quot;ת">ראש ת"ת</option>
+                                <option value="סגן ראש ת&quot;ת">סגן ראש ת"ת</option>
+                                <option value="עוזר ת&quot;ת">עוזר ת"ת</option>
+                                <option value="גבאי ראשי">גבאי ראשי</option>
+                                <option value="נציג הישיבה">נציג הישיבה</option>
+                                <option value="אחר">אחר (נא לפרט)</option>
+                            </select>
+                            <i class="fas fa-id-badge"></i>
+                        </div>
+                        <div class="error-text">נא לבחור תפקיד</div>
+                    </div>
+
+                    <!-- שדה נסתר לתפקיד אחר -->
+                    <div class="form-group" id="otherRoleGroup">
+                        <label>פרט תפקיד אחר <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="otherRoleSpec" class="form-control" placeholder="הכנס את תפקידך">
+                            <i class="fas fa-pen"></i>
+                        </div>
+                        <div class="error-text">נא לפרט את התפקיד</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>טלפון נייד <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="tel" id="phone" class="form-control" placeholder="050-0000000" maxlength="11"
+                                required>
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="error-text">נא להזין מספר נייד תקין (10 ספרות)</div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>כתובת אימייל <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="email" id="email" class="form-control" placeholder="example@email.com"
+                                required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="error-text">נא להזין כתובת אימייל</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- כמויות והזמנה -->
+            <div class="card">
+                <h2 class="section-title">
+                    <i class="fas fa-box-open"></i>
+                    פירוט הזמנה
+                </h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>מספר בחורים בישיבה <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="studentsCount" class="form-control" min="1"
+                                placeholder="סה&quot;כ בחורים" required oninput="updateEstimate()">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="error-text">נא להזין כמות בחורים</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>מספר שקיות מבוקש <span class="required-star">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="bagsCount" class="form-control" min="1" placeholder="כמות להזמנה"
+                                required>
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="error-text">נא להזין כמות שקיות</div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>הערות נוספות</label>
+                        <div class="input-wrapper">
+                            <textarea id="notes" class="form-control" rows="3"
+                                placeholder="הערות חשובות למשלוח..."></textarea>
+                            <i class="fas fa-comment-alt" style="top: 20px;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div>שימו לב: חלוקת השקיות תתבצע בתיאום מראש בלבד.</div>
+                    <div style="margin-top: 10px; font-size: 0.9rem; color: #666;">
+                        * ההזמנה כפופה לאישור המערכת
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span class="btn-text">בצע הרשמה והזמנה</span>
+                <div class="loading-spinner"></div>
+            </button>
+
+            <div id="statusMessage" class="status-message"></div>
+
+        </form>
+
+        <div class="developer-credit">
+            פיתוח תוכנה: <a href="tel:0527104792">חננאל 052-7104792</a> | <a href="mailto:h0527104792@gmail.com"
+                style="color: var(--primary-color); text-decoration: none;">h0527104792@gmail.com</a> | &copy; כל
+            הזכויות שמורות 2026
+        </div>
+    </div>
+
+    <script>
+        // *** חשוב: החלף את הכתובת הזו בכתובת שתקבל מגוגל סקריפט ***
+        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+
+        // טיפול בהצגת שדה "אחר" בתפקיד
+        function handleRoleChange() {
+            const roleSelect = document.getElementById('role');
+            const otherRoleGroup = document.getElementById('otherRoleGroup');
+            const otherRoleInput = document.getElementById('otherRoleSpec');
+
+            if (roleSelect.value === 'אחר') {
+                otherRoleGroup.style.display = 'block';
+                otherRoleInput.setAttribute('required', 'true');
+            } else {
+                otherRoleGroup.style.display = 'none';
+                otherRoleInput.removeAttribute('required');
+                otherRoleInput.value = ''; // איפוס הערך
+            }
+        }
+
+        // טיפול בהצגת שדה "אחר" בסוג ישיבה
+        function handleYeshivaTypeChange() {
+            const typeSelect = document.getElementById('yeshivaType');
+            const otherTypeGroup = document.getElementById('otherYeshivaTypeGroup');
+            const otherTypeInput = document.getElementById('otherYeshivaTypeSpec');
+
+            if (typeSelect.value === 'אחר') {
+                otherTypeGroup.style.display = 'block';
+                otherTypeInput.setAttribute('required', 'true');
+            } else {
+                otherTypeGroup.style.display = 'none';
+                otherTypeInput.removeAttribute('required');
+                otherTypeInput.value = '';
+            }
+        }
+
+        function updateEstimate() {
+            const students = document.getElementById('studentsCount').value;
+            const bagsInput = document.getElementById('bagsCount');
+
+            // אופציה: מילוי אוטומטי של כמות שקיות לפי כמות בחורים
+            if (students && (!bagsInput.value || bagsInput.value == 0)) {
+                bagsInput.value = students;
+            }
+        }
+
+        // פונקציית ולידציה (אימות)
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = ['yeshivaName', 'city', 'address', 'contactName', 'phone', 'email', 'studentsCount', 'bagsCount'];
+
+            // בדיקת שדות חובה רגילים
+            requiredFields.forEach(fieldId => {
+                const el = document.getElementById(fieldId);
+                const errorText = el.closest('.form-group').querySelector('.error-text');
+
+                if (!el.value.trim()) {
+                    el.classList.add('error');
+                    if (errorText) errorText.style.display = 'block';
+                    isValid = false;
+                } else {
+                    el.classList.remove('error');
+                    if (errorText) errorText.style.display = 'none';
+                }
+            });
+
+            // בדיקת סוג מוסד
+            const typeSelect = document.getElementById('yeshivaType');
+            const typeError = typeSelect.closest('.form-group').querySelector('.error-text');
+            if (!typeSelect.value) {
+                typeSelect.classList.add('error');
+                if (typeError) typeError.style.display = 'block';
+                isValid = false;
+            } else {
+                typeSelect.classList.remove('error');
+                if (typeError) typeError.style.display = 'none';
+            }
+
+            // בדיקת סוג מוסד "אחר"
+            if (typeSelect.value === 'אחר') {
+                const otherTypeSpec = document.getElementById('otherYeshivaTypeSpec');
+                const otherTypeError = otherTypeSpec.closest('.form-group').querySelector('.error-text');
+                if (!otherTypeSpec.value.trim()) {
+                    otherTypeSpec.classList.add('error');
+                    if (otherTypeError) otherTypeError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    otherTypeSpec.classList.remove('error');
+                    if (otherTypeError) otherTypeError.style.display = 'none';
+                }
+            }
+
+            // בדיקת תפקיד
+            const roleSelect = document.getElementById('role');
+            const roleError = roleSelect.closest('.form-group').querySelector('.error-text');
+            if (!roleSelect.value) {
+                roleSelect.classList.add('error');
+                if (roleError) roleError.style.display = 'block';
+                isValid = false;
+            } else {
+                roleSelect.classList.remove('error');
+                if (roleError) roleError.style.display = 'none';
+            }
+
+            // בדיקת תפקיד "אחר"
+            if (roleSelect.value === 'אחר') {
+                const otherSpec = document.getElementById('otherRoleSpec');
+                const otherError = otherSpec.closest('.form-group').querySelector('.error-text');
+                if (!otherSpec.value.trim()) {
+                    otherSpec.classList.add('error');
+                    if (otherError) otherError.style.display = 'block';
+                    isValid = false;
+                } else {
+                    otherSpec.classList.remove('error');
+                    if (otherError) otherError.style.display = 'none';
+                }
+            }
+
+            // בדיקת תקינות טלפון (מתחיל ב-05 ו-10 ספרות, אפשר עם מקף)
+            const phoneEl = document.getElementById('phone');
+            const phoneVal = phoneEl.value.replace(/\D/g, ''); // מסיר כל מה שלא מספר
+            const phoneError = phoneEl.closest('.form-group').querySelector('.error-text');
+
+            // רג'קס: מתחיל ב-05, ואחריו 8 ספרות נוספות (סה"כ 10)
+            const phoneRegex = /^05\d{8}$/;
+
+            if (phoneVal.length > 0 && !phoneRegex.test(phoneVal)) {
+                phoneEl.classList.add('error');
+                if (phoneError) {
+                    phoneError.innerText = 'מספר טלפון לא תקין (חייב להתחיל ב-05 ולהכיל 10 ספרות)';
+                    phoneError.style.display = 'block';
+                }
+                isValid = false;
+            }
+
+            // גלילה לשגיאה הראשונה
+            if (!isValid) {
+                const firstError = document.querySelector('.form-control.error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }
+            }
+
+            return isValid;
+        }
+
+        // הסרת שגיאות בזמן הקלדה
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('input', function () {
+                if (this.value.trim()) {
+                    this.classList.remove('error');
+                    const errorText = this.closest('.form-group').querySelector('.error-text');
+                    if (errorText) errorText.style.display = 'none';
+                }
+            });
+        });
+
+        function handleSubmit(e) {
+            e.preventDefault();
+
+            // הפעלת בדיקת תקינות
+            if (!validateForm()) {
+                return;
+            }
+
+            if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbzWck7HRRsceu8OnqIY0CKO3YE7pjRp6ryR03p-RQ-74O__cb-VlQpsnxdsqBQrUkBSWg/execIPT_URL_HERE') {
+                alert('שים לב: עליך להגדיר את כתובת הגוגל סקריפט בקוד לפני שהטופס יעבוד');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const spinner = submitBtn.querySelector('.loading-spinner');
+            const statusMsg = document.getElementById('statusMessage');
+
+            // מצב טעינה
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            spinner.style.display = 'block';
+            statusMsg.style.display = 'none';
+
+            // קביעת ערך סוג המוסד הסופי
+            let finalYeshivaType = document.getElementById('yeshivaType').value;
+            if (finalYeshivaType === 'אחר') {
+                finalYeshivaType = document.getElementById('otherYeshivaTypeSpec').value;
+            }
+
+            // קביעת ערך התפקיד הסופי
+            let finalRole = document.getElementById('role').value;
+            if (finalRole === 'אחר') {
+                finalRole = document.getElementById('otherRoleSpec').value;
+            }
+
+            // איסוף נתונים
+            const formData = {
+                timestamp: new Date().toLocaleString('he-IL'),
+                yeshivaName: document.getElementById('yeshivaName').value,
+                yeshivaType: finalYeshivaType, // סוג המוסד
+                city: document.getElementById('city').value,
+                address: document.getElementById('address').value,
+                contactName: document.getElementById('contactName').value,
+                role: finalRole, // שולח את התפקיד המפורט אם נבחר "אחר"
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                studentsCount: document.getElementById('studentsCount').value,
+                bagsCount: document.getElementById('bagsCount').value,
+                notes: document.getElementById('notes').value
+            };
+
+            // שליחה לגוגל שיטס
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => {
+                    // הצלחה - מעבר לדף תודה
+                    const params = new URLSearchParams({
+                        yeshiva: document.getElementById('yeshivaName').value,
+                        bags: document.getElementById('bagsCount').value,
+                        contact: document.getElementById('contactName').value,
+                        phone: document.getElementById('phone').value,
+                        email: document.getElementById('email').value
+                    });
+                    window.location.href = 'תודה.html?' + params.toString();
+                })
+                .catch(error => {
+                    // שגיאה
+                    console.error('Error:', error);
+                    statusMsg.className = 'status-message status-error';
+                    statusMsg.innerHTML = '<strong>שגיאה בשליחה.</strong> אנא נסה שוב או צור קשר בטלפון.';
+                    statusMsg.style.display = 'block';
+                })
+                .finally(() => {
+                    // איפוס כפתור
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'block';
+                    spinner.style.display = 'none';
+
+                    // גלילה להודעה
+                    statusMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+        }
+    </script>
+</body>
+
+</html>
