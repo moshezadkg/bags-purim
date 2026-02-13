@@ -582,7 +582,7 @@
 
     <script>
         // *** חשוב: החלף את הכתובת הזו בכתובת שתקבל מגוגל סקריפט ***
-        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzWck7HRRsceu8OnqIY0CKO3YE7pjRp6ryR03p-RQ-74O__cb-VlQpsnxdsqBQrUkBSWg/exec';
 
         // טיפול בהצגת שדה "אחר" בתפקיד
         function handleRoleChange() {
@@ -746,10 +746,7 @@
                 return;
             }
 
-            if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbzWck7HRRsceu8OnqIY0CKO3YE7pjRp6ryR03p-RQ-74O__cb-VlQpsnxdsqBQrUkBSWg/execIPT_URL_HERE') {
-                alert('שים לב: עליך להגדיר את כתובת הגוגל סקריפט בקוד לפני שהטופס יעבוד');
-                return;
-            }
+
 
             const submitBtn = document.getElementById('submitBtn');
             const btnText = submitBtn.querySelector('.btn-text');
