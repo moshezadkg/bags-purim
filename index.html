@@ -582,7 +582,7 @@
 
     <script>
         // *** חשוב: החלף את הכתובת הזו בכתובת שתקבל מגוגל סקריפט ***
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzWck7HRRsceu8OnqIY0CKO3YE7pjRp6ryR03p-RQ-74O__cb-VlQpsnxdsqBQrUkBSWg/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzZ2nScWbgtU3Hk_Anc2nwfc3BJ6GE4K1UFcC_QcAXaIftnUL3KI4DCWY8ZHGya6iWDzQ/exec';
 
         // טיפול בהצגת שדה "אחר" בתפקיד
         function handleRoleChange() {
@@ -620,8 +620,8 @@
             const students = document.getElementById('studentsCount').value;
             const bagsInput = document.getElementById('bagsCount');
 
-            // אופציה: מילוי אוטומטי של כמות שקיות לפי כמות בחורים
-            if (students && (!bagsInput.value || bagsInput.value == 0)) {
+            // מילוי אוטומטי של כמות שקיות לפי כמות בחורים
+            if (students) {
                 bagsInput.value = students;
             }
         }
@@ -788,13 +788,10 @@
             };
 
             // שליחה לגוגל שיטס
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
+            const params = new URLSearchParams(formData);
+            fetch(GOOGLE_SCRIPT_URL + '?' + params.toString(), {
+                method: 'GET',
+                mode: 'no-cors'
             })
                 .then(response => {
                     // הצלחה - מעבר לדף תודה
