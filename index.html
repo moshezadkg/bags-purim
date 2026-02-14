@@ -31,6 +31,7 @@
             color: #333;
             direction: rtl;
             padding-bottom: 50px;
+            zoom: 0.67;
         }
 
         /* כותרת עליונה */
@@ -736,6 +737,17 @@
                     if (errorText) errorText.style.display = 'none';
                 }
             });
+        });
+
+        // עיצוב אוטומטי של מספר טלפון עם מקף
+        document.getElementById('phone').addEventListener('input', function () {
+            let digits = this.value.replace(/\D/g, ''); // רק ספרות
+            if (digits.length > 10) digits = digits.substring(0, 10);
+            if (digits.length > 3) {
+                this.value = digits.substring(0, 3) + '-' + digits.substring(3);
+            } else {
+                this.value = digits;
+            }
         });
 
         function handleSubmit(e) {
