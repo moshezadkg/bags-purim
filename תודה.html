@@ -45,11 +45,11 @@
             z-index: 10;
         }
 
-        /* --- פס פרסומות בצד ימין --- */
+        /* --- פס פרסומות בצד שמאל (ויזואלית ימין ב-RTL) --- */
         .ads-strip {
             position: fixed;
             top: 0;
-            right: 0;
+            left: 0;
             width: 280px;
             height: 100vh;
             display: flex;
@@ -57,14 +57,14 @@
             justify-content: center;
             gap: 15px;
             padding: 20px 15px;
-            z-index: 5;
-            animation: slideInRight 0.8s ease-out 0.5s both;
+            z-index: 100;
+            animation: slideInLeft 0.8s ease-out 0.5s both;
         }
 
-        @keyframes slideInRight {
+        @keyframes slideInLeft {
             from {
                 opacity: 0;
-                transform: translateX(100%);
+                transform: translateX(-100%);
             }
 
             to {
