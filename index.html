@@ -806,10 +806,15 @@
                     // הצלחה - מעבר לדף תודה
                     const params = new URLSearchParams({
                         yeshiva: document.getElementById('yeshivaName').value,
-                        bags: document.getElementById('bagsCount').value,
+                        yeshivaType: formData.yeshivaType,
+                        city: document.getElementById('city').value,
+                        address: document.getElementById('address').value,
                         contact: document.getElementById('contactName').value,
+                        role: formData.role,
                         phone: document.getElementById('phone').value,
-                        email: document.getElementById('email').value
+                        email: document.getElementById('email').value,
+                        studentsCount: document.getElementById('studentsCount').value,
+                        bags: document.getElementById('bagsCount').value
                     });
                     window.location.href = 'תודה.html?' + params.toString();
                 })
