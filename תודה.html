@@ -47,7 +47,7 @@
         }
 
         /* --- פס פרסומות בצד ימין --- */
-        .ads-strip {
+        .info-strip {
             position: fixed;
             top: 0;
             right: 0;
@@ -74,7 +74,7 @@
             }
         }
 
-        .ads-label {
+        .info-label {
             text-align: center;
             font-size: 0.7rem;
             color: #bbb;
@@ -82,7 +82,7 @@
             letter-spacing: 1px;
         }
 
-        .ad-card {
+        .info-card {
             background: white;
             border-radius: 14px;
             overflow: hidden;
@@ -96,13 +96,13 @@
             min-height: 80px;
         }
 
-        .ad-card:hover {
+        .info-card:hover {
             transform: translateY(-4px) scale(1.02);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             border-color: var(--accent-color);
         }
 
-        .ad-image {
+        .info-image {
             width: 100%;
             height: auto;
             max-height: none;
@@ -110,11 +110,11 @@
             display: block;
         }
 
-        .ad-content {
+        .info-content {
             padding: 12px 14px;
         }
 
-        .ad-title {
+        .info-title {
             font-size: 0.9rem;
             font-weight: 700;
             color: var(--primary-color);
@@ -122,20 +122,20 @@
             line-height: 1.4;
         }
 
-        .ad-desc {
+        .info-desc {
             font-size: 0.75rem;
             color: #666;
             margin: 0 0 8px;
             line-height: 1.5;
         }
 
-        .ad-buttons {
+        .info-buttons {
             display: flex;
             gap: 8px;
             margin-top: 8px;
         }
 
-        .ad-btn {
+        .info-btn {
             display: inline-flex;
             align-items: center;
             gap: 5px;
@@ -149,27 +149,27 @@
             justify-content: center;
         }
 
-        .ad-btn-phone {
+        .info-btn-phone {
             background: var(--primary-color);
             color: white;
         }
 
-        .ad-btn-phone:hover {
+        .info-btn-phone:hover {
             background: #1a2555;
             transform: scale(1.03);
         }
 
-        .ad-btn-email {
+        .info-btn-email {
             background: var(--accent-color);
             color: var(--primary-color);
         }
 
-        .ad-btn-email:hover {
+        .info-btn-email:hover {
             background: #d4b85a;
             transform: scale(1.03);
         }
 
-        .ad-expand-hint {
+        .info-hint {
             text-align: center;
             font-size: 0.65rem;
             color: #aaa;
@@ -500,7 +500,7 @@
 
         /* --- רספונסיבי --- */
         @media (max-width: 1000px) {
-            .ads-strip {
+            .info-strip {
                 position: relative;
                 width: 100%;
                 height: auto;
@@ -516,13 +516,13 @@
                 padding: 20px;
             }
 
-            .ad-card {
+            .info-card {
                 flex: 1;
             }
         }
 
         @media (max-width: 600px) {
-            .ads-strip {
+            .info-strip {
                 flex-direction: column;
             }
 
@@ -608,39 +608,39 @@
     </div>
 
     <!-- פרסומות צמודות לצד ימין -->
-    <div class="ads-strip">
-        <p class="ads-label">מערכות נוספות שלנו ⬇</p>
+    <div class="info-strip">
+        <p class="info-label">מערכות נוספות שלנו ⬇</p>
 
         <!-- פרסומת 1: מערכת ניהול תת"ת -->
-        <div class="ad-card" onclick="openModal('modal-ttt')">
-            <img src="מערכת תומכי תורה 3 (1).png" alt="מערכת ניהול תת״ת" class="ad-image">
-            <div class="ad-content">
-                <h3 class="ad-title">מערכת ניהול לתת"ת</h3>
-                <p class="ad-desc">מלאי, קופה, כרטיסי קרבה, תת זהב, דוחות ועוד</p>
-                <div class="ad-buttons">
-                    <a href="tel:0527104792" class="ad-btn ad-btn-phone" onclick="event.stopPropagation()"><i
+        <div class="info-card" onclick="openModal('modal-ttt')">
+            <img src="מערכת תומכי תורה 3 (1).png" alt="מערכת ניהול תת״ת" class="info-image">
+            <div class="info-content">
+                <h3 class="info-title">מערכת ניהול לתת"ת</h3>
+                <p class="info-desc">מלאי, קופה, כרטיסי קרבה, תת זהב, דוחות ועוד</p>
+                <div class="info-buttons">
+                    <a href="tel:0527104792" class="info-btn info-btn-phone" onclick="event.stopPropagation()"><i
                             class="fas fa-phone-alt"></i> חייג</a>
-                    <a href="#" data-email="ttt" target="_blank" class="ad-btn ad-btn-email"
+                    <a href="#" data-email="ttt" target="_blank" class="info-btn info-btn-email"
                         onclick="event.stopPropagation()"><i class="fas fa-envelope"></i>
                         מייל</a>
                 </div>
-                <p class="ad-expand-hint">👆 לחץ לפרטים נוספים</p>
+                <p class="info-hint">👆 לחץ לפרטים נוספים</p>
             </div>
         </div>
 
         <!-- פרסומת 2: מערכת מאצ'ינג / הקש בדלת -->
-        <div class="ad-card" onclick="openModal('modal-matching')">
-            <img src="2פרסומת מאציאנג.png" alt="מערכת הקש בדלת - מאצ'ינג תרומות" class="ad-image">
-            <div class="ad-content">
-                <h3 class="ad-title">"הקש בדלת" — מאצ'ינג תרומות</h3>
-                <p class="ad-desc">מערכת גיוס תרומות עם מאצ'ינג לחדר אוכל בישיבה</p>
-                <div class="ad-buttons">
-                    <a href="tel:0527104792" class="ad-btn ad-btn-phone" onclick="event.stopPropagation()"><i
+        <div class="info-card" onclick="openModal('modal-matching')">
+            <img src="2פרסומת מאציאנג.png" alt="מערכת הקש בדלת - מאצ'ינג תרומות" class="info-image">
+            <div class="info-content">
+                <h3 class="info-title">"הקש בדלת" — מאצ'ינג תרומות</h3>
+                <p class="info-desc">מערכת גיוס תרומות עם מאצ'ינג לחדר אוכל בישיבה</p>
+                <div class="info-buttons">
+                    <a href="tel:0527104792" class="info-btn info-btn-phone" onclick="event.stopPropagation()"><i
                             class="fas fa-phone-alt"></i> חייג</a>
-                    <a href="#" data-email="matching" target="_blank" class="ad-btn ad-btn-email"
+                    <a href="#" data-email="matching" target="_blank" class="info-btn info-btn-email"
                         onclick="event.stopPropagation()"><i class="fas fa-envelope"></i> מייל</a>
                 </div>
-                <p class="ad-expand-hint">👆 לחץ לפרטים נוספים</p>
+                <p class="info-hint">👆 לחץ לפרטים נוספים</p>
             </div>
         </div>
     </div>
